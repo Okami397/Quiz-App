@@ -1,5 +1,5 @@
 import React from 'react';
-import QuizConfig from './pages/QuizConfig';
+import QuizConfig from './pages/QuizConfig/QuizConfig';
 
 const App: React.FC = () => {
     return (
