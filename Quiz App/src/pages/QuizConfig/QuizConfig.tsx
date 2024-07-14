@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-// import styles from '../pages/QuizConfig/QuizConfig.module.css';
 import styles from '../QuizConfig/QuizConfig.module.css'
 import SelectInput from '../../components/UI/SelectInput/SelectInput';
 import MyButton from '../../components/UI/button/MyButton';
+import NumberInput from '../../components/UI/NumberInput/NumberInput'
 
 interface QuizConfigProps {}
 
@@ -14,15 +14,6 @@ const QuizConfig: React.FC<QuizConfigProps> = () => {
     const [time, setTime] = useState<string>('');
 
     const selectOptions = [
-        { 
-            label: 'Number of Questions', 
-            value: numberOfQuestions, 
-            onChange: () => {}, 
-            options: Array.from({ length: 11 }, (_, index) => ({
-                value: (index + 5).toString(),
-                label: (index + 5).toString(),
-            }))
-        },
         { 
             label: 'Category', 
             value: category, 
@@ -62,6 +53,8 @@ const QuizConfig: React.FC<QuizConfigProps> = () => {
     return (
         <div className={styles.container}>
             <h1>Quiz Configuration</h1>
+
+            <NumberInput />
 
             {selectOptions.map((option, index) => (
                 <SelectInput
