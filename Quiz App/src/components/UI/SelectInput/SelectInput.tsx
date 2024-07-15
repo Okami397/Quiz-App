@@ -21,11 +21,13 @@ const SelectInput: React.FC<SelectInputProps> = ({ label, value, onChange, optio
         }
     };
 
+    const selectedOption = options.find(option => option.value === value);
+
     return (
         <div>
             <label>{label}</label>
             <Select
-                value={options.find(option => option.value === value)}
+                value={selectedOption}
                 onChange={handleChange}
                 options={options}
             />
@@ -34,7 +36,6 @@ const SelectInput: React.FC<SelectInputProps> = ({ label, value, onChange, optio
 };
 
 export default SelectInput;
-
 
 
 

@@ -1,41 +1,81 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import styles from '../QuizConfig/QuizConfig.module.css'
 import SelectInput from '../../components/UI/SelectInput/SelectInput';
 import MyButton from '../../components/UI/button/MyButton';
-import NumberInput from '../../components/UI/NumberInput/NumberInput'
+import NumberInput from '../../components/UI/NumberInput/NumberInput';
 
 interface QuizConfigProps {}
 
-const QuizConfig: React.FC<QuizConfigProps> = () => {
-    const [numberOfQuestions, setNumberOfQuestions] = useState<string>('');
-    const [category, setCategory] = useState<string>('');
-    const [difficulty, setDifficulty] = useState<string>('');
-    const [type, setType] = useState<string>('');
-    const [time, setTime] = useState<string>('');
+interface OptionType {
+    value: string;
+    label: string;
+}
 
-    const selectOptions = [
+interface SelectOption {
+    label: string;
+    value: string;
+    options?: OptionType[];
+}
+
+type State = {
+    numberOfQuestions: string;
+    category: string;
+    difficulty: string;
+    type: string;
+    time: string;
+};
+
+type Action = 
+    | { type: 'SET_NUMBER_OF_QUESTIONS'; payload: string }
+    | { type: 'SET_CATEGORY'; payload: string }
+    | { type: 'SET_DIFFICULTY'; payload: string }
+    | { type: 'SET_TYPE'; payload: string }
+    | { type: 'SET_TIME'; payload: string };
+
+const initialState: State = {
+    numberOfQuestions: '',
+    category: '',
+    difficulty: '',
+    type: '',
+    time: '',
+};
+
+const reducer = (state: State, action: Action): State => {
+    switch (action.type) {
+        case 'SET_NUMBER_OF_QUESTIONS':
+            return { ...state, numberOfQuestions: action.payload };
+        case 'SET_CATEGORY':
+            return { ...state, category: action.payload };
+        case 'SET_DIFFICULTY':
+            return { ...state, difficulty: action.payload };
+        case 'SET_TYPE':
+            return { ...state, type: action.payload };
+        case 'SET_TIME':
+            return { ...state, time: action.payload };
+        default:
+            return state;
+    }
+};
+
+const QuizConfig: React.FC<QuizConfigProps> = () => {
+    const [state, dispatch] = useReducer(reducer, initialState);
+
+    const selectOptions: SelectOption[] = [
         { 
             label: 'Category', 
-            value: category, 
-            onChange: () => {}, 
-            options: []
+            value: state.category, 
         },
         { 
             label: 'Difficulty', 
-            value: difficulty, 
-            onChange: setDifficulty, 
-            options: []
+            value: state.difficulty, 
         },
         { 
             label: 'Type', 
-            value: type, 
-            onChange: () => {}, 
-            options: []
+            value: state.type, 
         },
         { 
             label: 'Time', 
-            value: time, 
-            onChange: () => {}, 
+            value: state.time, 
             options: [
                 { value: '1m', label: '1m' },
                 { value: '2m', label: '2m' },
@@ -43,6 +83,10 @@ const QuizConfig: React.FC<QuizConfigProps> = () => {
             ]
         },
     ];
+
+    const handleInputChange = (type: Action['type']) => (value: string) => {
+        dispatch({ type, payload: value });
+    };
 
     const startQuiz = () => {
     };
@@ -54,15 +98,15 @@ const QuizConfig: React.FC<QuizConfigProps> = () => {
         <div className={styles.container}>
             <h1>Quiz Configuration</h1>
 
-            <NumberInput />
+            <NumberInput/>
 
-            {selectOptions.map((option, index) => (
+            {selectOptions.map((option) => (
                 <SelectInput
-                    key={index}
+                    key={option.label}
                     label={option.label}
                     value={option.value}
-                    onChange={option.onChange}
-                    options={option.options}
+                    onChange={handleInputChange(`SET_${option.label.toUpperCase()}` as Action['type'])}
+                    options={option.options || []}
                 />
             ))}
 
@@ -75,3 +119,5 @@ const QuizConfig: React.FC<QuizConfigProps> = () => {
 };
 
 export default QuizConfig;
+
+
