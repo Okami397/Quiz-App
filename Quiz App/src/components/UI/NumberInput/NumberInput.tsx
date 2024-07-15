@@ -4,16 +4,14 @@ import styles from '../NumberInput/NumberInput.module.css'
 const NumberInput: React.FC = () => {
   const [value, setValue] = useState<number | string>('');
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.target.value;
-    if (newValue === '') {
-      setValue('');
-    } else {
-      const numberValue = parseInt(newValue, 10);
-      if (numberValue >= 5 && numberValue <= 15) {
-        setValue(numberValue);
-      }
-    }
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => { 
+    const numberValue = Number(event.target.value); 
+    
+    if (!Number.isNaN(numberValue) && numberValue >= 5 && numberValue <= 15) { 
+      setValue(numberValue);
+    } else { 
+      setValue(''); 
+    } 
   };
 
   return (
