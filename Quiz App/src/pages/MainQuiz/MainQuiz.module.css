@@ -1,0 +1,55 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(233, 233, 235);
+  padding: 5% 10% 10%;
+  border-radius: 5px;
+}
+
+hr {
+  border: 1px solid #374258;
+  width: 100%;
+}
+
+.container__progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.container__progress_bar {
+  width: 80%;
+}
+
+.container__progress_timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  color: white;
+}
+
+.container__QA {
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+}
+
+.container__Q {
+  width: 50%;
+}
+
+.container__A {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.container__btn {
+  display: flex;
+  justify-content: center;
+}
