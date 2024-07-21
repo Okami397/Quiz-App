@@ -1,18 +1,24 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  background-color: rgb(233, 233, 235);
-  padding: 5% 10% 10%;
-  border-radius: 5px;
+  gap: 1rem;
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  border: 1px solid #dee2e6;
 }
 
-h1 {
+.container h1 {
+  margin-bottom: 1.5rem;
   color: hsl(348, 91%, 62%);
+  text-align: center;
+  font-size: 2.5rem;
 }
 
 .container__btn {
   display: flex;
   justify-content: center;
-  gap: 10px;
 }

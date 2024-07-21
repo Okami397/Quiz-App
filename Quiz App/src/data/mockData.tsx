@@ -2,19 +2,22 @@ export interface OptionType {
   value: string;
   label: string;
 }
-
 export interface SelectOption {
   label: string;
   value: string;
   options?: OptionType[];
 }
-
 export interface QuizQuestion {
   id: number;
   questionText: string;
   options: string[];
   answer: string;
   type: "boolean" | "multiChoice";
+}
+
+export interface QuizConfigSet {
+  title: string;
+  option: string;
 }
 
 export const selectOptions: SelectOption[] = [
@@ -60,7 +63,7 @@ export const quizQuestion: QuizQuestion[] = [
   {
     id: 0,
     questionText: "Who says the famous phrase 'Say my Name'",
-    options: ["Walter White", "Heisenberg", "Jesse Pinkman", "saul goodman"],
+    options: ["Walter White", "Heisenberg", "Jesse Pinkman", "Saul Goodman"],
     answer: "Heisenberg",
     type: "multiChoice",
   },
@@ -86,5 +89,24 @@ export const quizQuestion: QuizQuestion[] = [
     options: ["Naruto", "Ichigo", "Monkey D. Luffy", "Senku Ishigami"],
     answer: "Heisenberg",
     type: "multiChoice",
+  },
+];
+
+export const quizConfigSet: QuizConfigSet[] = [
+  {
+    title: "Category",
+    option: "Boolean",
+  },
+  {
+    title: "Type",
+    option: "History",
+  },
+  {
+    title: "Time",
+    option: "3 minutes",
+  },
+  {
+    title: "Difficulty",
+    option: "hard",
   },
 ];

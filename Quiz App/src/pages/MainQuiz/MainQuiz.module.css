@@ -1,52 +1,51 @@
 .container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  background-color: rgb(233, 233, 235);
-  padding: 5% 10% 10%;
-  border-radius: 5px;
+  gap: 1rem;
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  border: 1px solid #dee2e6;
 }
 
 hr {
-  border: 1px solid #374258;
-  width: 100%;
+  border: none;
+  border-top: 2px solid #dee2e6;
+  margin: 2rem 0;
 }
 
 .container__progress {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  width: 100%;
+  align-items: center;
 }
 
 .container__progress_bar {
-  width: 80%;
-}
-
-.container__progress_timer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100px;
-  height: 100px;
-  color: white;
+  flex: 1;
+  margin-right: 1.5rem;
 }
 
 .container__QA {
   display: flex;
-  justify-content: space-between;
-
-  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2rem;
 }
 
 .container__Q {
-  width: 50%;
+  flex: 1;
+  font-size: 1.75rem;
+  line-height: 1.4;
 }
 
 .container__A {
-  width: 50%;
+  flex: 1;
   display: flex;
   flex-direction: column;
+  gap: 1rem;
 }
 
 .container__btn {

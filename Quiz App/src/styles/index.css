@@ -1,8 +1,11 @@
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  padding: 5%;
-  padding-top: 1%;
+  background-color: #f4f4f4;
+  color: #41436a;
+  font-family: "Montserrat", sans-serif;
 }

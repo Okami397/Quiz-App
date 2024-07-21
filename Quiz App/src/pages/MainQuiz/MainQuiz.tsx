@@ -4,7 +4,7 @@ import ProgressBar from "../../components/UI/spinners/ProgressBar";
 import AnswerButton from "../../components/UI/buttons/AnswerButton";
 import MyButton from "../../components/UI/buttons/MyButton";
 import { quizQuestion } from "../../data/MockData";
-import CountDownTimer from "../../components/UI/spinners/CountDownTimer";
+import Spinner from "../../components/UI/spinners/Spinner";
 
 interface MainQuizProps {}
 
@@ -50,7 +50,7 @@ const MainQuiz: React.FC<MainQuizProps> = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.container__progress}>
+      <section className={styles.container__progress}>
         <div className={styles.container__progress_bar}>
           <ProgressBar
             currentQuestion={state.progress}
@@ -58,11 +58,11 @@ const MainQuiz: React.FC<MainQuizProps> = () => {
           />
         </div>
         <div className={styles.container__progress_timer}>
-          <CountDownTimer initialTime={timeLimit} />
+          <Spinner initialTime={timeLimit} />
         </div>
-      </div>
+      </section>
       <hr />
-      <div className={styles.container__QA}>
+      <section className={styles.container__QA}>
         <h2 className={styles.container__Q}>{currentQuestion.questionText}</h2>
         <div className={styles.container__A}>
           {currentQuestion.options.map((option) => (
@@ -71,10 +71,10 @@ const MainQuiz: React.FC<MainQuizProps> = () => {
             </AnswerButton>
           ))}
         </div>
-      </div>
-      <div className={styles.container__btn}>
+      </section>
+      <section className={styles.container__btn}>
         <MyButton onClick={endQuiz}>End Quiz</MyButton>
-      </div>
+      </section>
     </div>
   );
 };
