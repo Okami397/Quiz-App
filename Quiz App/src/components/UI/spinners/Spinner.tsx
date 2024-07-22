@@ -44,23 +44,26 @@ const Spinner: React.FC<SpinnerProps> = ({
 
   return (
     <Box
-      position="relative"
-      display="inline-flex"
-      alignItems="center"
-      justifyContent="center"
-      style={{ width: size, height: size }}
+      sx={{
+        position: "relative",
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: size,
+        height: size,
+      }}
     >
       <CircularProgress
         variant="determinate"
         value={100}
         size={size}
-        style={{ color: "#c4c4c4" }}
+        sx={{ color: "#c4c4c4" }}
       />
       <CircularProgress
         variant="determinate"
         value={progress}
         size={size}
-        style={{
+        sx={{
           color,
           position: "absolute",
           top: 0,
@@ -68,20 +71,22 @@ const Spinner: React.FC<SpinnerProps> = ({
         }}
       />
       <Box
-        position="absolute"
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        width="100%"
-        height="100%"
+        sx={{
+          position: "absolute",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+          height: "100%",
+        }}
       >
-        <Typography style={{ fontSize: size * 0.125 }} component="div">
+        <Typography sx={{ fontSize: size * 0.125 }} component="div">
           {correctAnswers !== undefined && totalQuestions !== undefined
             ? `Correct`
             : `Time Left`}
         </Typography>
-        <Typography style={{ fontSize: size * 0.125 }} component="div">
+        <Typography sx={{ fontSize: size * 0.125 }} component="div">
           {correctAnswers !== undefined && totalQuestions !== undefined
             ? `${correctAnswers}/${totalQuestions}`
             : `${timeLeft}s`}

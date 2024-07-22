@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer, useEffect, useState } from "react";
 import styles from "./MainQuiz.module.css";
 import ProgressBar from "../../components/UI/spinners/ProgressBar";
 import AnswerButton from "../../components/UI/buttons/AnswerButton";
@@ -11,23 +11,38 @@ interface MainQuizProps {}
 type State = {
   progress: number;
   numberOfQuestions: number;
+  currentQuestionId: number;
 };
-
-type Action =
-  | { type: "SET_PROGRESS"; payload: number }
-  | { type: "SET_NUMBER_OF_QUESTIONS"; payload: number };
+type Action = {
+  type: "QUIZ__STATE" | "CURRENT_QUESTION_ID";
+  payload: {
+    numberOfQuestions?: number;
+    progress?: number;
+    currentQuestionId?: number;
+  };
+};
 
 const initialState: State = {
   progress: 0,
   numberOfQuestions: 0,
+  currentQuestionId: 0,
 };
 
 const reducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
-    case "SET_PROGRESS":
-      return { ...state, progress: action.payload };
-    case "SET_NUMBER_OF_QUESTIONS":
-      return { ...state, numberOfQuestions: action.payload };
+    case "QUIZ__STATE":
+      return {
+        ...state,
+        numberOfQuestions:
+          action.payload.numberOfQuestions ?? state.numberOfQuestions,
+        progress: action.payload.progress ?? state.progress,
+      };
+    case "CURRENT_QUESTION_ID":
+      return {
+        ...state,
+        currentQuestionId:
+          action.payload.currentQuestionId ?? state.currentQuestionId,
+      };
     default:
       return state;
   }
@@ -36,17 +51,30 @@ const reducer = (state: State = initialState, action: Action): State => {
 const MainQuiz: React.FC<MainQuizProps> = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const currentQuestion = quizQuestion[0];
   const timeLimit = 140;
+  const currentQuestion = quizQuestion[state.currentQuestionId];
 
-  const selectAnswer = () => {};
+  const selectAnswer = () => {
+    state.currentQuestionId < quizQuestion.length - 1
+      ? dispatch({
+          type: "CURRENT_QUESTION_ID",
+          payload: { currentQuestionId: state.currentQuestionId + 1 },
+        })
+      : endQuiz();
+  };
   const endQuiz = () => {};
 
   useEffect(() => {
     const uniqueIds = new Set(quizQuestion.map((question) => question.id));
-    dispatch({ type: "SET_NUMBER_OF_QUESTIONS", payload: uniqueIds.size });
-    dispatch({ type: "SET_PROGRESS", payload: currentQuestion.id + 1 });
-  }, []);
+
+    dispatch({
+      type: "QUIZ__STATE",
+      payload: {
+        numberOfQuestions: uniqueIds.size,
+        progress: state.currentQuestionId + 1,
+      },
+    });
+  }, [state.currentQuestionId]);
 
   return (
     <div className={styles.container}>
@@ -66,7 +94,7 @@ const MainQuiz: React.FC<MainQuizProps> = () => {
         <h2 className={styles.container__Q}>{currentQuestion.questionText}</h2>
         <div className={styles.container__A}>
           {currentQuestion.options.map((option) => (
-            <AnswerButton onClick={selectAnswer} key={currentQuestion.id + 1}>
+            <AnswerButton onClick={selectAnswer} key={option}>
               {option}
             </AnswerButton>
           ))}

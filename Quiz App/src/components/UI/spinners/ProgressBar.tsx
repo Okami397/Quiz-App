@@ -14,13 +14,15 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
 
   return (
     <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      gap="15px"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "15px",
+      }}
     >
-      <Box width="100%" mt={4}>
+      <Box sx={{ width: "100%", mt: 4 }}>
         <LinearProgress variant="determinate" value={progress} />
       </Box>
       <Typography>

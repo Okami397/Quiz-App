@@ -7,10 +7,10 @@ import Spinner from "../../components/UI/spinners/Spinner";
 
 interface QuizResultProps {}
 
-type Action =
-  | { type: "SET_ANSWERED"; payload: number }
-  | { type: "SET_TOTAL"; payload: number }
-  | { type: "SET_TIME"; payload: number };
+type Action = {
+  type: "SET_ANSWERED" | "SET_TOTAL" | "SET_TIME";
+  payload: number;
+};
 
 interface State {
   answered: number;

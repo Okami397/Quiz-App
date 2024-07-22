@@ -15,12 +15,15 @@ type State = {
   time: string;
 };
 
-type Action =
-  | { type: "SET_NUMBER_OF_QUESTIONS"; payload: string }
-  | { type: "SET_CATEGORY"; payload: string }
-  | { type: "SET_DIFFICULTY"; payload: string }
-  | { type: "SET_TYPE"; payload: string }
-  | { type: "SET_TIME"; payload: string };
+type Action = {
+  type:
+    | "SET_NUMBER_OF_QUESTIONS"
+    | "SET_CATEGORY"
+    | "SET_DIFFICULTY"
+    | "SET_TYPE"
+    | "SET_TIME";
+  payload: string;
+};
 
 const initialState: State = {
   numberOfQuestions: "",
