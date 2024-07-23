@@ -1,0 +1,32 @@
+.myBtn {
+  background-color: hsl(348, 91%, 62%);
+  color: #ffffff;
+  margin: 1rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    background-color: #fe9677;
+  }
+}
+
+.answerBtn {
+  background-color: #ffffff;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    border: 1px solid #fe9677;
+  }
+
+  &:active {
+    background-color: #fe9677;
+    color: #ffffff;
+  }
+}
