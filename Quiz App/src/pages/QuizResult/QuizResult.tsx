@@ -1,5 +1,6 @@
 import React, { useReducer } from "react";
 import styles from "./QuizResult.module.css";
+import { useNavigate } from "react-router-dom";
 import { quizConfigSet, QuizConfigSet } from "../../data/MockData";
 import ConfigOptionsCard from "../../components/UI/card/ConfigOptionsCard";
 import MyButton from "../../components/UI/buttons/MyButton";
@@ -39,9 +40,15 @@ const reducer = (state: State, action: Action): State => {
 
 const QuizResult: React.FC<QuizResultProps> = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const navigate = useNavigate();
 
-  const restart = () => {};
-  const rebuild = () => {};
+  const restart = () => {
+    navigate("/quiz");
+  };
+
+  const rebuild = () => {
+    navigate("/");
+  };
 
   return (
     <div className={styles.container}>

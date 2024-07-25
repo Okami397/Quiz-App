@@ -1,10 +1,12 @@
 import React, { useReducer, useEffect, useState } from "react";
 import styles from "./MainQuiz.module.css";
+import { useNavigate } from "react-router-dom";
 import ProgressBar from "../../components/UI/spinners/ProgressBar";
 import AnswerButton from "../../components/UI/buttons/AnswerButton";
 import MyButton from "../../components/UI/buttons/MyButton";
 import { quizQuestion } from "../../data/MockData";
 import Spinner from "../../components/UI/spinners/Spinner";
+import ConfirmModal from "../../components/UI/modal/ConfirmModal";
 
 interface MainQuizProps {}
 
@@ -12,20 +14,28 @@ type State = {
   progress: number;
   numberOfQuestions: number;
   currentQuestionId: number;
+  isModalOpen: boolean;
 };
-type Action = {
-  type: "QUIZ__STATE" | "CURRENT_QUESTION_ID";
-  payload: {
-    numberOfQuestions?: number;
-    progress?: number;
-    currentQuestionId?: number;
-  };
-};
+
+type Action =
+  | {
+      type: "QUIZ__STATE" | "CURRENT_QUESTION_ID";
+      payload: {
+        numberOfQuestions?: number;
+        progress?: number;
+        currentQuestionId?: number;
+      };
+    }
+  | {
+      type: "TOGGLE_MODAL";
+      payload: { isModalOpen: boolean };
+    };
 
 const initialState: State = {
   progress: 0,
   numberOfQuestions: 0,
   currentQuestionId: 0,
+  isModalOpen: false,
 };
 
 const reducer = (state: State = initialState, action: Action): State => {
@@ -43,6 +53,11 @@ const reducer = (state: State = initialState, action: Action): State => {
         currentQuestionId:
           action.payload.currentQuestionId ?? state.currentQuestionId,
       };
+    case "TOGGLE_MODAL":
+      return {
+        ...state,
+        isModalOpen: action.payload.isModalOpen,
+      };
     default:
       return state;
   }
@@ -50,9 +65,9 @@ const reducer = (state: State = initialState, action: Action): State => {
 
 const MainQuiz: React.FC<MainQuizProps> = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  const timeLimit = 140;
+  const timeLimit = 5000;
   const currentQuestion = quizQuestion[state.currentQuestionId];
+  const navigate = useNavigate();
 
   const selectAnswer = () => {
     state.currentQuestionId < quizQuestion.length - 1
@@ -60,9 +75,24 @@ const MainQuiz: React.FC<MainQuizProps> = () => {
           type: "CURRENT_QUESTION_ID",
           payload: { currentQuestionId: state.currentQuestionId + 1 },
         })
-      : endQuiz();
+      : timeOrQuestionsEnd();
   };
-  const endQuiz = () => {};
+
+  const endQuiz = () => {
+    dispatch({ type: "TOGGLE_MODAL", payload: { isModalOpen: true } });
+  };
+
+  const confirm = () => {
+    navigate("/");
+  };
+
+  const cancel = () => {
+    dispatch({ type: "TOGGLE_MODAL", payload: { isModalOpen: false } });
+  };
+
+  const timeOrQuestionsEnd = () => {
+    navigate("/result");
+  };
 
   useEffect(() => {
     const uniqueIds = new Set(quizQuestion.map((question) => question.id));
@@ -86,7 +116,7 @@ const MainQuiz: React.FC<MainQuizProps> = () => {
           />
         </div>
         <div className={styles.container__progress_timer}>
-          <Spinner initialTime={timeLimit} />
+          <Spinner initialTime={timeLimit} timeEnd={timeOrQuestionsEnd} />
         </div>
       </section>
       <hr />
@@ -103,6 +133,19 @@ const MainQuiz: React.FC<MainQuizProps> = () => {
       <section className={styles.container__btn}>
         <MyButton onClick={endQuiz}>End Quiz</MyButton>
       </section>
+      <ConfirmModal
+        active={state.isModalOpen}
+        onClick={confirm}
+        setActive={(isActive: boolean) =>
+          dispatch({ type: "TOGGLE_MODAL", payload: { isModalOpen: isActive } })
+        }
+      >
+        <h2>Are you sure?</h2>
+        <div className={styles.container__btn}>
+          <AnswerButton onClick={confirm}>Confirm</AnswerButton>
+          <AnswerButton onClick={cancel}>Cancel</AnswerButton>
+        </div>
+      </ConfirmModal>
     </div>
   );
 };

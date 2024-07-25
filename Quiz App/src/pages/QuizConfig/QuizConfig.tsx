@@ -1,5 +1,6 @@
 import React, { useReducer } from "react";
 import styles from "../QuizConfig/QuizConfig.module.css";
+import { useNavigate } from "react-router-dom";
 import SelectInput from "../../components/UI/SelectInput/SelectInput";
 import MyButton from "../../components/UI/buttons/MyButton";
 import NumberInput from "../../components/UI/NumberInput/NumberInput";
@@ -52,14 +53,19 @@ const reducer = (state: State, action: Action): State => {
 
 const QuizConfig: React.FC<QuizConfigProps> = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const navigate = useNavigate();
 
   const handleInputChange = (type: Action["type"]) => (value: string) => {
     dispatch({ type, payload: value });
   };
 
-  const startQuiz = () => {};
+  const startQuiz = () => {
+    navigate("/quiz");
+  };
 
-  const seeStats = () => {};
+  const seeStats = () => {
+    navigate("/statistics");
+  };
 
   return (
     <div className={styles.container}>
