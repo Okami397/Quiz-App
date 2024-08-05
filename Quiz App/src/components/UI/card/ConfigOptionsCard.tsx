@@ -3,7 +3,7 @@ import styles from "./ConfigOptionsCard.module.css";
 
 interface ConfigOptionsCardProps {
   title: string;
-  option: string;
+  option: string | number;
 }
 
 const ConfigOptionsCard: React.FC<ConfigOptionsCardProps> = ({

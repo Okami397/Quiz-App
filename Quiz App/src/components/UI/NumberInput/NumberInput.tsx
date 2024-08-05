@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 import styles from "../NumberInput/NumberInput.module.css";
 
-const NumberInput: React.FC = () => {
-  const [value, setValue] = useState<number | string>("");
+interface NumberInputProps {
+  value: number;
+  onChange: (value: number | null) => void;
+}
 
+const NumberInput: React.FC<NumberInputProps> = ({ value, onChange }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const numberValue = Number(event.target.value);
-
-    if (!Number.isNaN(numberValue) && numberValue >= 5 && numberValue <= 15) {
-      setValue(numberValue);
-    } else {
-      setValue("");
-    }
+    onChange(numberValue);
   };
 
   return (
@@ -23,7 +21,7 @@ const NumberInput: React.FC = () => {
         type="number"
         min={5}
         max={15}
-        value={value}
+        value={value === 0 ? "" : value}
         onChange={handleChange}
         placeholder="Type Number..."
       />

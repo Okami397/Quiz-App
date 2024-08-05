@@ -1,16 +1,17 @@
 import React from "react";
 import styles from "./SelectInput.module.css";
-import Select, { ActionMeta } from "react-select";
+import Select from "react-select";
 
 interface OptionType {
-  value: string;
-  label: string;
+  value: string | number;
+  label: string | number;
+  id?: number;
 }
 
 interface SelectInputProps {
   label: string;
-  value: string;
-  onChange: (value: string) => void;
+  value: string | number | { id: number; value: string };
+  onChange: (value: string | number) => void;
   options: OptionType[];
 }
 
@@ -20,16 +21,13 @@ const SelectInput: React.FC<SelectInputProps> = ({
   onChange,
   options,
 }) => {
-  const handleChange = (
-    selectedOption: OptionType | null,
-    actionMeta: ActionMeta<OptionType>,
-  ) => {
+  const handleChange = (selectedOption: any) => {
     if (selectedOption) {
       onChange(selectedOption.value);
     }
   };
 
-  const selectedOption = options.find((option) => option.value === value);
+  const selectedOption = options.find((option) => option.value == value);
 
   return (
     <div className={styles.wrapper}>

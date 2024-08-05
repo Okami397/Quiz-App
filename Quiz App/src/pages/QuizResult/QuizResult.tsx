@@ -1,52 +1,42 @@
-import React, { useReducer } from "react";
+import React from "react";
 import styles from "./QuizResult.module.css";
 import { useNavigate } from "react-router-dom";
-import { quizConfigSet, QuizConfigSet } from "../../data/MockData";
 import ConfigOptionsCard from "../../components/UI/card/ConfigOptionsCard";
 import MyButton from "../../components/UI/buttons/MyButton";
 import Spinner from "../../components/UI/spinners/Spinner";
+import { useAppSelector, useAppDispatch } from "../../hooks/redux";
+import {
+  setQuizConfig,
+  clearQuizData,
+} from "../../store/reducers/quizConfigSlice";
+import { resetQuiz } from "../../store/reducers/resultsSlice";
 
 interface QuizResultProps {}
 
-type Action = {
-  type: "SET_ANSWERED" | "SET_TOTAL" | "SET_TIME";
-  payload: number;
-};
-
-interface State {
-  answered: number;
-  total: number;
-  time: number;
-}
-
-const initialState: State = {
-  answered: 5,
-  total: 15,
-  time: 300,
-};
-
-const reducer = (state: State, action: Action): State => {
-  switch (action.type) {
-    case "SET_ANSWERED":
-      return { ...state, answered: action.payload };
-    case "SET_TOTAL":
-      return { ...state, total: action.payload };
-    case "SET_TIME":
-      return { ...state, time: action.payload };
-    default:
-      return state;
-  }
-};
-
 const QuizResult: React.FC<QuizResultProps> = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const correct = useAppSelector((state) => state.results);
+  const config = useAppSelector((state) => state.quizConfig.configuration);
+
+  const configuration = {
+    Quantity: config.amount,
+    Category: config.category.value,
+    Difficulty: config.difficulty,
+    Type: config.type,
+    Time: config.time,
+  };
+
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const restart = () => {
+    dispatch(resetQuiz());
+    dispatch(setQuizConfig(config));
     navigate("/quiz");
   };
 
   const rebuild = () => {
+    dispatch(resetQuiz());
+    dispatch(clearQuizData());
     navigate("/");
   };
 
@@ -61,22 +51,18 @@ const QuizResult: React.FC<QuizResultProps> = () => {
         <section className={styles.wrapper__results}>
           <Spinner
             size={200}
-            correctAnswers={state.answered}
-            totalQuestions={state.total}
+            correctAnswers={correct.correctAnswers}
+            totalQuestions={correct.totalQuestions}
           />
           <div className={styles.wrapper__results_time}>
             <h3>Time spent:</h3>
-            <p>{state.time} second's</p>
+            <p>{correct.totalQuestions} second's</p>
           </div>
         </section>
         <section className={styles.container__card}>
           <h3>Quiz configuration:</h3>
-          {quizConfigSet.map((option: QuizConfigSet) => (
-            <ConfigOptionsCard
-              title={option.title}
-              option={option.option}
-              key={option.title}
-            />
+          {Object.entries(configuration).map(([key, value]) => (
+            <ConfigOptionsCard title={key} option={value} key={key} />
           ))}
         </section>
       </section>
