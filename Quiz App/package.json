@@ -18,6 +18,7 @@
     "axios": "^1.7.2",
     "install": "^0.13.0",
     "npm": "^10.8.2",
+    "persist": "^0.2.7",
     "query": "^0.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -25,6 +26,7 @@
     "react-router": "^6.25.1",
     "react-router-dom": "6.4",
     "react-select": "^5.8.0",
+    "redux": "^5.0.1",
     "rtk": "^3.1.1"
   },
   "devDependencies": {
