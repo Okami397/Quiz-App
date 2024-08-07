@@ -27,7 +27,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
     }
   };
 
-  const selectedOption = options.find((option) => option.value == value);
+  const selectedOption = options.find((option) => option.value === value);
 
   return (
     <div className={styles.wrapper}>
