@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import { CircularProgress, Box, Typography } from "@mui/material";
 
 interface SpinnerProps {
   initialTime?: number;
   size?: number;
   correctAnswers?: number;
   totalQuestions?: number;
+  timeEnd?: () => void;
 }
 
 const Spinner: React.FC<SpinnerProps> = ({
@@ -15,6 +14,7 @@ const Spinner: React.FC<SpinnerProps> = ({
   size = 80,
   correctAnswers,
   totalQuestions,
+  timeEnd,
 }) => {
   const [timeLeft, setTimeLeft] = useState(initialTime);
 
@@ -27,8 +27,10 @@ const Spinner: React.FC<SpinnerProps> = ({
       }, 1000);
 
       return () => clearTimeout(timerId);
+    } else {
+      if (timeEnd) timeEnd();
     }
-  }, [timeLeft, correctAnswers, totalQuestions]);
+  }, [timeLeft, correctAnswers, totalQuestions, timeEnd]);
 
   const progress =
     correctAnswers !== undefined && totalQuestions !== undefined
