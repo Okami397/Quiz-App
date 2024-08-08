@@ -56,7 +56,7 @@ const QuizResult: React.FC<QuizResultProps> = () => {
           />
           <div className={styles.wrapper__results_time}>
             <h3>Time spent:</h3>
-            <p>{correct.totalQuestions} second's</p>
+            <p>{correct.time} second's</p>
           </div>
         </section>
         <section className={styles.container__card}>
