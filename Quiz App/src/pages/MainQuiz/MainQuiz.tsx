@@ -17,7 +17,6 @@ import {
   resetQuiz,
 } from "../../store/reducers/resultsSlice";
 import { clearQuizData } from "../../store/reducers/quizConfigSlice";
-import { setStatistics } from "../../store/reducers/statisticsSlice";
 import useTimer from "../../hooks/timer";
 
 type Action =
@@ -66,7 +65,6 @@ const MainQuiz: React.FC<MainQuizProps> = () => {
     config as Configuration,
   );
   const timeLimit = config!.time;
-  // const statistics = { total, correct, category, difficulty, type };
 
   const dispatchAnswers = useAppDispatch();
   const navigate = useNavigate();
@@ -77,6 +75,7 @@ const MainQuiz: React.FC<MainQuizProps> = () => {
 
   useEffect(() => {
     if (data) {
+      dispatchAnswers(resetQuiz());
       dispatchAnswers(setTotal(data.length));
       dispatch({ type: "SET_NUMBER_OF_QUESTIONS", payload: data.length });
       resetTimer();
@@ -106,7 +105,6 @@ const MainQuiz: React.FC<MainQuizProps> = () => {
     stopTimer();
     dispatchAnswers(setTime(getElapsedTime()));
     resetTimer();
-    // dispatchAnswers(setStatistics({}));
     navigate("/result");
   }, [dispatchAnswers]);
 

@@ -1,74 +1,70 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type Stats = {
-  type: string;
+export interface Stats {
   total: number;
   correct: number;
-};
+}
 
 interface Statistics {
   totalQuestions: number;
   totalCorrect: number;
-  category: Stats[];
-  difficulty: Stats[];
-  type: Stats[];
+  category: { [key: string]: Stats };
+  difficulty: { [key: string]: Stats };
+  type: { [key: string]: Stats };
 }
 
 const initialState: Statistics = {
   totalQuestions: 0,
   totalCorrect: 0,
-  category: [],
-  difficulty: [],
-  type: [],
-};
-
-interface SetStatisticsPayload {
-  total: number;
-  correct: number;
-  category: Stats;
-  difficulty: Stats;
-  type: Stats;
-}
-
-const setStats = (
-  array: Stats[],
-  type: string,
-  total: number,
-  correct: number,
-) => {
-  const index = array.findIndex((item) => item.type === type);
-  if (index >= 0) {
-    array[index] = {
-      ...array[index],
-      total: array[index].total + total,
-      correct: array[index].correct + correct,
-    };
-  } else {
-    array.push({ type, total, correct });
-  }
+  category: {},
+  difficulty: {},
+  type: {},
 };
 
 export const statisticsSlice = createSlice({
   name: "statistics",
   initialState,
   reducers: {
-    setStatistics(state, action: PayloadAction<SetStatisticsPayload>) {
-      const { total, correct, category, difficulty, type } = action.payload;
+    setStatistics(state, action: PayloadAction<Statistics>) {
+      const { totalQuestions, totalCorrect, category, difficulty, type } =
+        action.payload;
 
-      state.totalQuestions += total;
-      state.totalCorrect += correct;
+      state.totalQuestions += totalQuestions;
+      state.totalCorrect += totalCorrect;
 
-      setStats(state.category, category.type, category.total, category.correct);
-      setStats(
-        state.difficulty,
-        difficulty.type,
-        difficulty.total,
-        difficulty.correct,
-      );
-      setStats(state.type, type.type, type.total, type.correct);
+      for (const [cat, count] of Object.entries(category)) {
+        if (!state.category[cat]) {
+          state.category[cat] = { total: 0, correct: 0 };
+        }
+        state.category[cat].total += count.total;
+        state.category[cat].correct += count.correct;
+      }
+
+      for (const [diff, count] of Object.entries(difficulty)) {
+        if (!state.difficulty[diff]) {
+          state.difficulty[diff] = { total: 0, correct: 0 };
+        }
+        state.difficulty[diff].total += count.total;
+        state.difficulty[diff].correct += count.correct;
+      }
+
+      for (const [typ, count] of Object.entries(type)) {
+        if (!state.type[typ]) {
+          state.type[typ] = { total: 0, correct: 0 };
+        }
+        state.type[typ].total += count.total;
+        state.type[typ].correct += count.correct;
+      }
+    },
+    resetStatistics(state) {
+      state.totalQuestions = 0;
+      state.totalCorrect = 0;
+      state.category = {};
+      state.difficulty = {};
+      state.type = {};
     },
   },
 });
 
-export const { setStatistics } = statisticsSlice.actions;
+export const { setStatistics, resetStatistics } = statisticsSlice.actions;
 export default statisticsSlice.reducer;

@@ -1,16 +1,57 @@
 import React from "react";
-import { useAppSelector } from "../../hooks/redux";
+import { useAppSelector, useAppDispatch } from "../../hooks/redux";
+import MyButton from "../../components/UI/buttons/MyButton";
+import { useNavigate } from "react-router-dom";
+import { resetStatistics } from "../../store/reducers/statisticsSlice";
+import StatsSection from "../../components/UI/cards/StatsSection";
+import styles from "./Statistics.module.css";
 
 const Statistics = () => {
   const data = useAppSelector((state) => state.statisticsSlice);
-  console.log(data);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const stats = [
+    {
+      title: "Difficulty",
+      stats: data.difficulty,
+    },
+    {
+      title: "Type",
+      stats: data.type,
+    },
+    {
+      title: "Category",
+      stats: data.category,
+    },
+  ];
+
   return (
-    <div>
-      <p>Number of questions {data.totalQuestions}</p>
-      <p>Number of correct answers {data.totalCorrect}</p>
-      {/* <p>Number of questions for each category that user took{data.category.map(type => {}) }</p> */}
-      <p>Number of questions for each difficulty</p>
-      <p>Number of questions for each type</p>
+    <div className={styles.container}>
+      <h1>Statistics</h1>
+      {data.totalQuestions ? (
+        <section className={styles.wrapper}>
+          <div className={styles.wrapper__count}>
+            <h2>
+              {data.totalQuestions ?? 0}/<span>{data.totalCorrect ?? 0}</span>
+            </h2>
+            <p>
+              Questions/<span>Correct</span>
+            </p>
+          </div>
+          {stats.map(({ title, stats }) => (
+            <StatsSection key={title} title={title} stats={stats} />
+          ))}
+        </section>
+      ) : (
+        <h2>No data available</h2>
+      )}
+      <section className={styles.container__btn}>
+        <MyButton onClick={() => navigate("/")}>Configure quiz</MyButton>
+        <MyButton onClick={() => dispatch(resetStatistics())}>
+          Reset statistics
+        </MyButton>
+      </section>
     </div>
   );
 };

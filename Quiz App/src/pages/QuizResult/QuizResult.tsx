@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./QuizResult.module.css";
 import { useNavigate } from "react-router-dom";
-import ConfigOptionsCard from "../../components/UI/card/ConfigOptionsCard";
+import ConfigOptionsCard from "../../components/UI/cards/ConfigOPtionsCard";
 import MyButton from "../../components/UI/buttons/MyButton";
 import Spinner from "../../components/UI/spinners/Spinner";
 import { useAppSelector, useAppDispatch } from "../../hooks/redux";
@@ -9,7 +9,8 @@ import {
   setQuizConfig,
   clearQuizData,
 } from "../../store/reducers/quizConfigSlice";
-import { resetQuiz, results } from "../../store/reducers/resultsSlice";
+import { resetQuiz } from "../../store/reducers/resultsSlice";
+import { setStatistics } from "../../store/reducers/statisticsSlice";
 
 interface QuizResultProps {}
 
@@ -25,8 +26,35 @@ const QuizResult: React.FC<QuizResultProps> = () => {
     Time: config.time,
   };
 
+  const statistics = {
+    totalQuestions: correct.totalQuestions,
+    totalCorrect: correct.correctAnswers,
+    category: {
+      [config.category.value]: {
+        total: correct.totalQuestions,
+        correct: correct.correctAnswers,
+      },
+    },
+    difficulty: {
+      [config.difficulty]: {
+        total: correct.totalQuestions,
+        correct: correct.correctAnswers,
+      },
+    },
+    type: {
+      [config.type]: {
+        total: correct.totalQuestions,
+        correct: correct.correctAnswers,
+      },
+    },
+  };
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setStatistics(statistics));
+  }, [correct, config, statistics]);
 
   const restart = () => {
     dispatch(resetQuiz());

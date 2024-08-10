@@ -16,8 +16,6 @@
     "@reduxjs/toolkit": "^2.2.7",
     "@types/react-redux": "^7.1.33",
     "axios": "^1.7.2",
-    "install": "^0.13.0",
-    "npm": "^10.8.2",
     "persist": "^0.2.7",
     "query": "^0.2.0",
     "react": "^18.3.1",
