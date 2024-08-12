@@ -12,14 +12,15 @@ const QuizConfig: React.FC<QuizConfigProps> = () => {
   const config = useAppSelector((state) => state.quizConfig.configuration);
 
   const startQuiz = () => {
-    if (
+    const isConfigurationVAlid =
       !config ||
       !config.amount ||
       !config.category ||
       !config.difficulty ||
       !config.type ||
-      !config.time
-    ) {
+      !config.time;
+
+    if (isConfigurationVAlid) {
       alert("Please complete the quiz configuration before starting.");
       return;
     }
