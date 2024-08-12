@@ -29,10 +29,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: 10rem;
-  max-height: 10rem;
+  /* max-width: 10rem; */
+  /* max-height: 10rem; */
   gap: 0.5rem;
-  padding: 3rem;
+  padding: 1.5rem;
   border-radius: 8px;
   background-color: #1abc9c;
   justify-self: center;

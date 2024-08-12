@@ -21,6 +21,21 @@ const initialState: Statistics = {
   type: {},
 };
 
+function enhanceCounts(
+  initialCounts: { [key: string]: Stats },
+  incomingCounts: { [key: string]: Stats },
+) {
+  return Object.entries(incomingCounts).reduce((accCounts, [key, count]) => {
+    if (!accCounts[key]) {
+      accCounts[key] = { total: 0, correct: 0 };
+    }
+    accCounts[key].total += count.total;
+    accCounts[key].correct += count.correct;
+
+    return accCounts;
+  }, initialCounts);
+}
+
 export const statisticsSlice = createSlice({
   name: "statistics",
   initialState,
@@ -31,30 +46,9 @@ export const statisticsSlice = createSlice({
 
       state.totalQuestions += totalQuestions;
       state.totalCorrect += totalCorrect;
-
-      for (const [cat, count] of Object.entries(category)) {
-        if (!state.category[cat]) {
-          state.category[cat] = { total: 0, correct: 0 };
-        }
-        state.category[cat].total += count.total;
-        state.category[cat].correct += count.correct;
-      }
-
-      for (const [diff, count] of Object.entries(difficulty)) {
-        if (!state.difficulty[diff]) {
-          state.difficulty[diff] = { total: 0, correct: 0 };
-        }
-        state.difficulty[diff].total += count.total;
-        state.difficulty[diff].correct += count.correct;
-      }
-
-      for (const [typ, count] of Object.entries(type)) {
-        if (!state.type[typ]) {
-          state.type[typ] = { total: 0, correct: 0 };
-        }
-        state.type[typ].total += count.total;
-        state.type[typ].correct += count.correct;
-      }
+      state.category = enhanceCounts(state.category, category);
+      state.difficulty = enhanceCounts(state.difficulty, difficulty);
+      state.type = enhanceCounts(state.type, type);
     },
     resetStatistics(state) {
       state.totalQuestions = 0;

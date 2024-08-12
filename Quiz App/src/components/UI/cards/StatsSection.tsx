@@ -12,8 +12,7 @@ const StatsSection: React.FC<StatsSectionProps> = ({ title, stats }) => {
     <div className={styles.wrapper}>
       <h3>{title}</h3>
       <div className={styles.wrapper__card}>
-        {Object.entries(stats).map(([key, stats]) => {
-          const { total, correct } = stats;
+        {Object.entries(stats).map(([key, { total, correct }]) => {
           return (
             <div className={styles.wrapper__card_item} key={key}>
               <h4>{key}:</h4>
