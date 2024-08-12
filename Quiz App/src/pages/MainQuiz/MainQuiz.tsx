@@ -108,32 +108,31 @@ const MainQuiz: React.FC<MainQuizProps> = () => {
     navigate("/result");
   }, [dispatchAnswers]);
 
+  const setNextQuestionsOrEnd = useCallback(() => {
+    currentQuestionId < numberOfQuestions - 1
+      ? dispatch({
+          type: "SET_CURRENT_QUESTION_ID",
+          payload: currentQuestionId + 1,
+        })
+      : timeOrQuestionsEnd();
+  }, [currentQuestionId, numberOfQuestions, timeOrQuestionsEnd, dispatch]);
+
+  const checkAnswer = useCallback(
+    (answer: string) => {
+      if (!currentQuestionData) return;
+
+      const isCorrect = currentQuestionData.correctAnswer === answer;
+      if (isCorrect) dispatchAnswers(setCorrectAnswers());
+    },
+    [currentQuestionData, dispatchAnswers],
+  );
+
   const selectAnswer = useCallback(
     (answer: string) => {
-      if (currentQuestionData) {
-        const isCorrect = currentQuestionData.correctAnswer === answer;
-
-        if (isCorrect) {
-          dispatchAnswers(setCorrectAnswers());
-        }
-
-        if (currentQuestionId < numberOfQuestions - 1) {
-          dispatch({
-            type: "SET_CURRENT_QUESTION_ID",
-            payload: currentQuestionId + 1,
-          });
-        } else {
-          timeOrQuestionsEnd();
-        }
-      }
+      checkAnswer(answer);
+      setNextQuestionsOrEnd();
     },
-    [
-      currentQuestionData,
-      currentQuestionId,
-      numberOfQuestions,
-      dispatchAnswers,
-      timeOrQuestionsEnd,
-    ],
+    [checkAnswer, setNextQuestionsOrEnd],
   );
 
   return (

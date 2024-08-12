@@ -67,21 +67,21 @@ const ConfigurationSelect: React.FC = () => {
   }, [state, dispatchToolkit]);
 
   const handleInputChange = useCallback(
-    (type: Action["type"]) =>
-      (value: number | string | { id: number; value: string }) => {
-        dispatch({ type, payload: value });
-      },
-    [],
+    (
+      type: Action["type"],
+      value: number | string | { id: number; value: string },
+    ) => {
+      dispatch({ type, payload: value });
+    },
+    [dispatch],
   );
 
   return (
     <div>
       <NumberInput
         value={state.numberOfQuestions}
-        onChange={
-          handleInputChange("SET_NUMBER_OF_QUESTIONS") as (
-            value: number | null,
-          ) => void
+        onChange={(value) =>
+          handleInputChange("SET_NUMBER_OF_QUESTIONS", value as number)
         }
       />
       {selectOptions.map((option: SelectOption) => (
@@ -104,7 +104,8 @@ const ConfigurationSelect: React.FC = () => {
             } else {
               handleInputChange(
                 `SET_${option.label.toUpperCase()}` as Action["type"],
-              )(value);
+                value,
+              );
             }
           }}
           options={
