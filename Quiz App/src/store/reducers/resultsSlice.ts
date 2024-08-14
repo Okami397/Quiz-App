@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { act } from "react";
 
 interface Results {
   currentQuestion: number;
@@ -31,11 +30,6 @@ export const results = createSlice({
     setTime(state, action) {
       state.time = action.payload;
     },
-    // setResults: (state, action) => {
-    //   state.time = action.payload.time;
-    //   state.correctAnswers = action.payload.correctAnswers;
-    //   state.totalQuestions = action.payload.totalQuestions;
-    // },
     resetQuiz(state) {
       state.correctAnswers = 0;
       state.currentQuestion = 0;

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./ConfigOptionsCard.module.css";
+import styles from "./Cards.module.css";
 
 interface ConfigOptionsCardProps {
   title: string;

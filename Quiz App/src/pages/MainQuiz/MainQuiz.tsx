@@ -75,6 +75,7 @@ const MainQuiz: React.FC<MainQuizProps> = () => {
 
   useEffect(() => {
     if (data) {
+      dispatchAnswers(resetQuiz());
       dispatchAnswers(setTotal(data.length));
       dispatch({ type: "SET_NUMBER_OF_QUESTIONS", payload: data.length });
       resetTimer();
