@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  useLocation,
-} from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import QuizConfig from "./pages/QuizConfig/QuizConfig";
 import MainQuiz from "./pages/MainQuiz/MainQuiz";
 import QuizResult from "./pages/QuizResult/QuizResult";

@@ -18,7 +18,6 @@ import {
   resetQuiz,
 } from "../../store/reducers/resultsSlice";
 import { clearQuizData } from "../../store/reducers/quizConfigSlice";
-import { motion } from "framer-motion";
 import useTimer from "../../hooks/timer";
 
 type Action =

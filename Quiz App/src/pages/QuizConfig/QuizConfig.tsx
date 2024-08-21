@@ -4,7 +4,6 @@ import QuizConfigurationSelect from "../../components/quiz/ConfigurationSelect";
 import { useNavigate } from "react-router-dom";
 import MyButton from "../../components/UI/buttons/MyButton";
 import { useAppSelector } from "../../hooks/redux";
-import { motion } from "framer-motion";
 
 interface QuizConfigProps {}
 
@@ -33,24 +32,14 @@ const QuizConfig: React.FC<QuizConfigProps> = () => {
   };
 
   return (
-    <motion.div className={styles.container}>
+    <div className={styles.container}>
       <h1>Quiz Configuration</h1>
       <QuizConfigurationSelect />
       <div className={styles.container__btn}>
         <MyButton onClick={startQuiz}>Start Quiz</MyButton>
         <MyButton onClick={seeStats}>See my stats</MyButton>
       </div>
-      <motion.div
-        // initial={{ x: 0 }}
-        animate={{
-          x: [0, 1000],
-          opacity: 0,
-          transition: { duration: 2.5, ease: "circOut" },
-        }}
-        exit={{ x: [0, -5], transition: { duration: 0.5, ease: "circIn" } }}
-        className="privacy-screen"
-      />
-    </motion.div>
+    </div>
   );
 };
 
