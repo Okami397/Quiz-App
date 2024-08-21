@@ -1,26 +1,48 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useLocation,
+} from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 import QuizConfig from "./pages/QuizConfig/QuizConfig";
 import MainQuiz from "./pages/MainQuiz/MainQuiz";
 import QuizResult from "./pages/QuizResult/QuizResult";
 import Statistics from "./pages/Statistics/Statistics";
+import PageTransition from "./components/UI/spinners/PageTransition";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <QuizConfig />,
+    element: (
+      <PageTransition>
+        <QuizConfig />
+      </PageTransition>
+    ),
   },
   {
     path: "/quiz",
-    element: <MainQuiz />,
+    element: (
+      <PageTransition>
+        <MainQuiz />
+      </PageTransition>
+    ),
   },
   {
     path: "/result",
-    element: <QuizResult />,
+    element: (
+      <PageTransition>
+        <QuizResult />
+      </PageTransition>
+    ),
   },
   {
     path: "/statistics",
-    element: <Statistics />,
+    element: (
+      <PageTransition>
+        <Statistics />
+      </PageTransition>
+    ),
   },
 ]);
 

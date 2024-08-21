@@ -5,6 +5,7 @@ import ProgressBar from "../../components/UI/spinners/ProgressBar";
 import AnswerButton from "../../components/UI/buttons/AnswerButton";
 import MyButton from "../../components/UI/buttons/MyButton";
 import Spinner from "../../components/UI/spinners/Spinner";
+import Loading from "../../components/UI/spinners/Loading";
 import ConfirmModal from "../../components/UI/modal/ConfirmModal";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { Configuration } from "../../models/quiz";
@@ -17,6 +18,7 @@ import {
   resetQuiz,
 } from "../../store/reducers/resultsSlice";
 import { clearQuizData } from "../../store/reducers/quizConfigSlice";
+import { motion } from "framer-motion";
 import useTimer from "../../hooks/timer";
 
 type Action =
@@ -64,6 +66,7 @@ const MainQuiz: React.FC<MainQuizProps> = () => {
   const { data, error, isLoading } = quizApi.useFetchQuestionsQuery(
     config as Configuration,
   );
+
   const timeLimit = config!.time;
 
   const dispatchAnswers = useAppDispatch();
@@ -136,9 +139,11 @@ const MainQuiz: React.FC<MainQuizProps> = () => {
   );
 
   return (
-    <div className={styles.container}>
+    <>
       {isLoading ? (
-        "Loading..."
+        <div className={styles.container__loading}>
+          <Loading />
+        </div>
       ) : error ? (
         <ConfirmModal
           active={true}
@@ -154,7 +159,7 @@ const MainQuiz: React.FC<MainQuizProps> = () => {
         </ConfirmModal>
       ) : (
         data && (
-          <>
+          <div className={styles.container}>
             <section className={styles.container__progress}>
               <div className={styles.container__progress_bar}>
                 <ProgressBar
@@ -190,10 +195,10 @@ const MainQuiz: React.FC<MainQuizProps> = () => {
                 <AnswerButton onClick={cancel}>Cancel</AnswerButton>
               </div>
             </ConfirmModal>
-          </>
+          </div>
         )
       )}
-    </div>
+    </>
   );
 };
 
