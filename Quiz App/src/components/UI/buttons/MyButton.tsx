@@ -1,4 +1,5 @@
 import React, { MouseEventHandler, ReactNode } from "react";
+import { motion } from "framer-motion";
 import styles from "../buttons/Buttons.module.css";
 
 interface MyButtonProps {
@@ -8,9 +9,14 @@ interface MyButtonProps {
 
 const MyButton: React.FC<MyButtonProps> = ({ onClick, children }) => {
   return (
-    <button className={styles.myBtn} onClick={onClick}>
+    <motion.button
+      className={styles.myBtn}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      onClick={onClick}
+    >
       {children}
-    </button>
+    </motion.button>
   );
 };
 
